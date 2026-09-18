@@ -109,9 +109,7 @@ We presented a multimodal edge-AI architecture for firefighter helmet sensing an
 
 Simulation code, metrics, and figures are publicly available at:
 
-**https://github.com/applycoding/firefighter-multimodal-edge-ai-sim**
-
-(Repository will be created with this manuscript package.) Re-run with seed 42. No real fireground data were used.
+**https://github.com/applycoding/firefighter-multimodal-edge-ai-sim** Re-run with seed 42. No real fireground data were used.
 
 ## Author Contributions
 
