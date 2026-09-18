@@ -1,0 +1,411 @@
+{
+  "disclaimer": "SYNTHETIC data only. No real fireground or department data. Methodological feasibility demonstration.",
+  "config": {
+    "seed": 42,
+    "n_units": 12,
+    "t_minutes": 60,
+    "dt_sec": 10,
+    "n_steps": 360,
+    "tau_alert": 0.35,
+    "p_alert": 0.8,
+    "sampling": "1 sample / 10 seconds"
+  },
+  "metrics": [
+    {
+      "method": "BaselineA_Thresholds",
+      "f1": 0.8853974121996303,
+      "precision": 0.9716024340770791,
+      "recall": 0.8132427843803056,
+      "auroc": 0.9054714799466135,
+      "auprc": 0.8266042379262003,
+      "false_alert_rate": 0.003779392889347517,
+      "mean_detection_delay_min": 0.287878787878788,
+      "median_detection_delay_min": 0.16666666666666785,
+      "event_miss_rate": 0.15384615384615385,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 0.10000603866051883,
+          "median_delay_min": 0.09156304751262567,
+          "miss_rate": 0.0
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 0.08250708509153999,
+          "median_delay_min": 0.06322539029893903,
+          "miss_rate": 0.0
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 0.08166667427302816,
+          "median_delay_min": 0.05006802633805307,
+          "miss_rate": 0.0
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": 0.06671353523067758,
+          "median_delay_min": 0.06671353523067758,
+          "miss_rate": 0.0
+        }
+      },
+      "risk_pearson_r": null,
+      "risk_rmse": null,
+      "far_during_noise_confound": 0.0056022408963585435
+    },
+    {
+      "method": "BaselineB_EWMA",
+      "f1": 0.9033391915641477,
+      "precision": 0.936247723132969,
+      "recall": 0.8726655348047538,
+      "auroc": 0.9934104158295636,
+      "auprc": 0.9476437443105148,
+      "false_alert_rate": 0.009815525913334957,
+      "mean_detection_delay_min": 1.2121212121212117,
+      "median_detection_delay_min": 1.0,
+      "event_miss_rate": 0.15384615384615385,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 0.10000603866051883,
+          "median_delay_min": 0.09156304751262567,
+          "miss_rate": 0.0
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 0.08250708509153999,
+          "median_delay_min": 0.06322539029893903,
+          "miss_rate": 0.0
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 0.08166667427302816,
+          "median_delay_min": 0.05006802633805307,
+          "miss_rate": 0.0
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": 0.06671353523067758,
+          "median_delay_min": 0.06671353523067758,
+          "miss_rate": 0.0
+        }
+      },
+      "risk_pearson_r": null,
+      "risk_rmse": null,
+      "far_during_noise_confound": 0.0
+    },
+    {
+      "method": "Proposed_Kalman",
+      "f1": 0.8416912487708947,
+      "precision": 1.0,
+      "recall": 0.7266553480475382,
+      "auroc": 0.9965930380026202,
+      "auprc": 0.9858350131689333,
+      "false_alert_rate": 0.0,
+      "mean_detection_delay_min": 1.2424242424242429,
+      "median_detection_delay_min": 1.1666666666666679,
+      "event_miss_rate": 0.15384615384615385,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 0.10000603866051883,
+          "median_delay_min": 0.09156304751262567,
+          "miss_rate": 0.0
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 0.08250708509153999,
+          "median_delay_min": 0.06322539029893903,
+          "miss_rate": 0.0
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 0.08166667427302816,
+          "median_delay_min": 0.05006802633805307,
+          "miss_rate": 0.0
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": 0.06671353523067758,
+          "median_delay_min": 0.06671353523067758,
+          "miss_rate": 0.0
+        }
+      },
+      "risk_pearson_r": 0.9652889529225248,
+      "risk_rmse": 0.08281411363308774,
+      "far_during_noise_confound": 0.0
+    },
+    {
+      "method": "Ablation_ThermalGas",
+      "f1": 0.6349942062572422,
+      "precision": 1.0,
+      "recall": 0.46519524617996605,
+      "auroc": 0.8564816689790808,
+      "auprc": 0.7603632240370836,
+      "false_alert_rate": 0.0,
+      "mean_detection_delay_min": 2.312500000000001,
+      "median_detection_delay_min": 2.0,
+      "event_miss_rate": 0.38461538461538464,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 0.10000603866051883,
+          "median_delay_min": 0.09156304751262567,
+          "miss_rate": 0.0
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 0.08250708509153999,
+          "median_delay_min": 0.06322539029893903,
+          "miss_rate": 0.0
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 0.9991422736227449,
+          "median_delay_min": 0.9991422736227449,
+          "miss_rate": 0.6666666666666666
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": 0.04272593968923033,
+          "median_delay_min": 0.04272593968923033,
+          "miss_rate": 0.5
+        }
+      },
+      "risk_pearson_r": 0.8068481509856716,
+      "risk_rmse": 0.13694743403215856,
+      "far_during_noise_confound": 0.0
+    },
+    {
+      "method": "Ablation_Physio",
+      "f1": 0.5031766200762389,
+      "precision": 1.0,
+      "recall": 0.3361629881154499,
+      "auroc": 0.8463508829569536,
+      "auprc": 0.7166622469548974,
+      "false_alert_rate": 0.0,
+      "mean_detection_delay_min": 5.833333333333333,
+      "median_detection_delay_min": 3.833333333333332,
+      "event_miss_rate": 0.46153846153846156,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 1.1709535746318345,
+          "median_delay_min": 1.1709535746318345,
+          "miss_rate": 0.5
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 21.370459490598932,
+          "median_delay_min": 21.370459490598932,
+          "miss_rate": 0.6666666666666666
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 0.08166667427302816,
+          "median_delay_min": 0.05006802633805307,
+          "miss_rate": 0.0
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": NaN,
+          "median_delay_min": NaN,
+          "miss_rate": 1.0
+        }
+      },
+      "risk_pearson_r": 0.7044190363098461,
+      "risk_rmse": 0.16265664395190227,
+      "far_during_noise_confound": 0.0
+    },
+    {
+      "method": "Ablation_IMU",
+      "f1": 0.1466275659824047,
+      "precision": 0.5376344086021505,
+      "recall": 0.08488964346349745,
+      "auroc": 0.6620923488288597,
+      "auprc": 0.33205721302578967,
+      "false_alert_rate": 0.010875685294377354,
+      "mean_detection_delay_min": 5.714285714285714,
+      "median_detection_delay_min": 6.666666666666664,
+      "event_miss_rate": 0.46153846153846156,
+      "event_specific_delays": {
+        "heat_ramp": {
+          "n": 4,
+          "mean_delay_min": 2.2780749603753896,
+          "median_delay_min": 2.3177654527675813,
+          "miss_rate": 0.25
+        },
+        "co_spike": {
+          "n": 3,
+          "mean_delay_min": 3.063225390298939,
+          "median_delay_min": 3.063225390298939,
+          "miss_rate": 0.6666666666666666
+        },
+        "physio_overload": {
+          "n": 3,
+          "mean_delay_min": 2.264132664907182,
+          "median_delay_min": 2.264132664907182,
+          "miss_rate": 0.3333333333333333
+        },
+        "fall": {
+          "n": 2,
+          "mean_delay_min": 0.06671353523067758,
+          "median_delay_min": 0.06671353523067758,
+          "miss_rate": 0.0
+        }
+      },
+      "risk_pearson_r": 0.3499704777604971,
+      "risk_rmse": 0.22665193469600697,
+      "far_during_noise_confound": 0.0
+    }
+  ],
+  "scenario_metas": [
+    {
+      "unit_id": 0,
+      "events": {
+        "heat_ramp": {
+          "t0_min": 34.34890121389908,
+          "width_min": 8.0
+        },
+        "gps_denied": {
+          "t0_min": 17.655325674545153,
+          "dur_min": 23.585979199113822
+        }
+      }
+    },
+    {
+      "unit_id": 1,
+      "events": {
+        "heat_ramp": {
+          "t0_min": 32.43420072648409,
+          "width_min": 8.0
+        },
+        "co_spike": {
+          "t0_min": 13.296207176067734,
+          "width_min": 6.0
+        }
+      }
+    },
+    {
+      "unit_id": 2,
+      "events": {
+        "heat_ramp": {
+          "t0_min": 39.3905587909189,
+          "width_min": 8.0
+        },
+        "physio_overload": {
+          "t0_min": 34.83419105971059,
+          "width_min": 10.0
+        },
+        "gps_denied": {
+          "t0_min": 25.293414716092983,
+          "dur_min": 16.28113632675546
+        }
+      }
+    },
+    {
+      "unit_id": 3,
+      "events": {
+        "heat_ramp": {
+          "t0_min": 26.25964844738918,
+          "width_min": 8.0
+        },
+        "fall": {
+          "t0_min": 31.123940726977438,
+          "width_min": 2.0
+        }
+      }
+    },
+    {
+      "unit_id": 4,
+      "events": {
+        "co_spike": {
+          "t0_min": 42.43677460970106,
+          "width_min": 6.0
+        },
+        "gps_denied": {
+          "t0_min": 22.16503264177462,
+          "dur_min": 23.2276161327083
+        }
+      }
+    },
+    {
+      "unit_id": 5,
+      "events": {
+        "co_spike": {
+          "t0_min": 25.519496958956587,
+          "width_min": 6.0
+        },
+        "noise_confound": {
+          "t0_min": 11.817161653543307,
+          "width_min": 12.0
+        }
+      }
+    },
+    {
+      "unit_id": 6,
+      "events": {
+        "physio_overload": {
+          "t0_min": 28.637543610475046,
+          "width_min": 10.0
+        },
+        "gps_denied": {
+          "t0_min": 9.403979634291858,
+          "dur_min": 23.276311719925822
+        }
+      }
+    },
+    {
+      "unit_id": 7,
+      "events": {
+        "physio_overload": {
+          "t0_min": 30.949931973661947,
+          "width_min": 10.0
+        }
+      }
+    },
+    {
+      "unit_id": 8,
+      "events": {
+        "fall": {
+          "t0_min": 42.74263220256121,
+          "width_min": 2.0
+        },
+        "gps_denied": {
+          "t0_min": 15.799571298857103,
+          "dur_min": 24.706980243949033
+        }
+      }
+    },
+    {
+      "unit_id": 9,
+      "events": {
+        "noise_confound": {
+          "t0_min": 31.79363363966593,
+          "width_min": 12.0
+        }
+      }
+    },
+    {
+      "unit_id": 10,
+      "events": {
+        "gps_denied": {
+          "t0_min": 25.12443693562276,
+          "dur_min": 16.946387078519678
+        },
+        "noise_confound": {
+          "t0_min": 19.001630111811025,
+          "width_min": 12.0
+        }
+      }
+    },
+    {
+      "unit_id": 11,
+      "events": {
+        "noise_confound": {
+          "t0_min": 6.314112973616863,
+          "width_min": 12.0
+        }
+      }
+    }
+  ]
+}
