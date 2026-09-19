@@ -1,6 +1,12 @@
 # Multimodal Edge Artificial Intelligence and Physiological Sensing for Firefighter Safety in Hazardous Environments
 
-**Authors:** Arpan Bom; Sushanta Khadka
+**Authors**
+
+Arpan Bom<sup>1,*</sup>; Sushanta Khadka<sup>1</sup>
+
+<sup>1</sup> Independent researchers (affiliations to be finalized for submission).  
+<sup>*</sup> Corresponding author: Arpan Bom (email to be provided at submission).  
+ORCID: Arpan Bom [to be added]; Sushanta Khadka [to be added].
 
 **Article type:** Original Research (Methods + Simulation Study)
 
@@ -12,11 +18,11 @@
 
 **Background.** Wildland and structural firefighting expose crews to rapidly changing thermal, toxic, and physiological hazards. Network connectivity is often unavailable exactly when alerts matter most.
 
-**Methods.** We present a helmet-oriented multimodal sensing architecture that fuses thermal, gas, light, GPS/IMU, and physiological channels with edge AI for local hazard detection and a non-critical cloud mission-control layer for incident command. Safety-critical inference is designed to operate offline. We evaluate a linear-Gaussian multimodal Kalman filter with RTS smoothing and empirical-Bayes unit shrinkage in a controlled **synthetic** study (12 sorties x 60 minutes; seed 42) against independent thresholds, univariate EWMA, and modality ablations. **No real fireground or department data were used.**
+**Methods.** We present a helmet-oriented multimodal sensing architecture that fuses thermal, gas, light, GPS/IMU, and physiological channels with edge AI for local hazard detection and a non-critical cloud mission-control layer for incident command. Safety-critical inference is designed to operate offline. We evaluate a linear-Gaussian multimodal Kalman filter with RTS smoothing and empirical-Bayes unit shrinkage in a controlled **synthetic-only** study (12 sorties x 60 minutes; seed 42) against independent thresholds, univariate EWMA, and modality ablations. Performance is reported both at a fixed precision-first operating point and via ranking metrics (AUROC). **No real fireground, department, or human-subject datasets were used; results are not operational performance claims.**
 
-**Results.** The proposed tracker achieved AUROC = 0.997 and false-alert rate = 0.000, recovering latent primary risk with Pearson r = 0.965 (RMSE = 0.083). At a conservative P(risk > tau) >= 0.8 operating point, F1 = 0.842 (precision = 1.000, recall = 0.727), trailing EWMA on F1 (0.903) while eliminating false alerts. Thermal+gas, physio-only, and IMU-only ablations underperformed the full multimodal model (AUROC 0.856 / 0.846 / 0.662). Ambient noise confound alone did not trigger proposed alerts.
+**Results.** The proposed tracker achieved AUROC = 0.997 and false-alert rate = 0.000, recovering latent primary risk with Pearson r = 0.965 (RMSE = 0.083). At a conservative P(risk > tau) >= 0.8 operating point chosen to minimize alert fatigue, F1 = 0.842 (precision = 1.000, recall = 0.727). EWMA attained higher F1 (0.903) with higher false-alert rate (0.010), illustrating an operating-point tradeoff rather than dominance on all metrics. Thermal+gas, physio-only, and IMU-only ablations underperformed the full multimodal model (AUROC 0.856 / 0.846 / 0.662). Ambient noise confound alone did not trigger proposed alerts.
 
-**Conclusions.** Multimodal edge state-space fusion can improve ranking quality and suppress false alerts under simulated missingness and GPS denial, supporting an architecture that keeps safety-critical functions onboard. Translation requires analog and field evaluation before operational claims.
+**Conclusions.** Under simulated missingness and GPS denial, multimodal edge state-space fusion can improve ranking quality and suppress false alerts when tuned for high precision. These findings motivate, but do not replace, analog drills and field trials before any deployment claim.
 
 **Keywords:** firefighter safety; edge AI; multimodal sensing; Kalman filter; physiological monitoring; PPE; FirstNet
 
@@ -48,7 +54,7 @@ For unit k and time t, let latent primary risk x_{k,t} evolve as a Gaussian rand
 
 ### 3.3 Inference and alerting
 
-We use Kalman filtering and RTS smoothing. Alerts fire when P(x_{k,t} > tau | data) >= 0.8, with tau calibrated on early windows. This is approximate Bayesian inference (Kalman + empirical Bayes), not full MCMC.
+We use Kalman filtering and RTS smoothing. Continuous risk scores are the smoothed posterior means (and associated alert probabilities). For a binary decision rule, alerts fire when P(x_{k,t} > tau | data) >= 0.8, with tau calibrated on early windows. This threshold is intentionally **precision-first**: in fireground audio interfaces, false alerts compete with radio traffic and may be tuned out. Ranking quality is therefore reported with AUROC in addition to fixed-threshold F1. This is approximate Bayesian inference (Kalman + empirical Bayes), not full MCMC.
 
 ### 3.4 Baselines and ablations
 
@@ -60,15 +66,19 @@ We use Kalman filtering and RTS smoothing. Alerts fire when P(x_{k,t} > tau | da
 
 N = 12 sorties, T = 60 minutes, 1 sample / 10 s, seed 42. Induced events: heat/flashover-precursor (4), CO spike (3), physio overload (3), fall (2), GPS-denied DR drift (6), ambient noise confound (4). Ground-truth elevated risk when latent primary risk >= 0.35. Metrics: F1, AUROC, precision, recall, mean detection delay, false-alert rate, Pearson r / RMSE vs true risk.
 
-**Ethics:** No human subjects data and no department operational records were used.
+**Scope statement.** All inputs and labels are authored synthetic processes. The study tests relative method behavior under controlled missingness and confounds; it does not estimate real-world sensitivity/specificity.
+
+**Ethics.** No human subjects data and no department operational records were used. Future analog or field evaluations involving firefighters would require institutional review / department approval before data collection.
 
 ---
 
 ## 4. Results
 
-### 4.1 Overall performance
+### 4.1 Overall performance and operating-point tradeoff
 
-Table 1 summarizes detection metrics. The proposed multimodal Kalman tracker achieved **AUROC = 0.997** and **FAR = 0.000**, versus AUROC 0.905 / 0.993 and FAR 0.004 / 0.010 for thresholds and EWMA. At the conservative P>=0.8 operating point, Proposed **F1 = 0.842** trailed EWMA F1 = 0.903 because of lower recall (0.727 vs 0.873) with perfect precision (1.000). This is an intentional precision-first tradeoff for alert fatigue.
+Table 1 summarizes detection metrics. The proposed multimodal Kalman tracker achieved **AUROC = 0.997** and **FAR = 0.000**, versus AUROC 0.905 / 0.993 and FAR 0.004 / 0.010 for thresholds and EWMA. Ranking quality therefore favors the proposed score.
+
+At the fixed conservative P>=0.8 rule, Proposed **F1 = 0.842** trailed EWMA F1 = 0.903 because of lower recall (0.727 vs 0.873) with perfect precision (1.000). This is expected under a precision-first threshold: EWMA alerts more often (higher recall, higher FAR), while the proposed rule alerts less often but with no false positives in this seed. Figure 2 (ROC) is the appropriate comparison for score quality across thresholds; Table 1 reports one operationally motivated cutpoint rather than claiming F1 dominance.
 
 **Table 1.** Synthetic detection performance (12 x 60 min; seed 42).
 
@@ -83,11 +93,11 @@ Table 1 summarizes detection metrics. The proposed multimodal Kalman tracker ach
 
 ### 4.2 Latent tracking and events
 
-Estimated primary risk matched synthetic truth with Pearson **r = 0.965** and **RMSE = 0.083** (Figure 1). Event-onset delays for heat, CO, physio, and fall were near-immediate once hazards rose (mean about 0.07-0.10 min for proposed onset detection). Mean day-level delay across elevated periods was 1.24 min.
+Estimated primary risk matched synthetic truth with Pearson **r = 0.965** and **RMSE = 0.083** (Figure 1). Event-onset delays for heat, CO, physio, and fall were near-immediate once hazards rose (mean about 0.07-0.10 min for proposed onset detection). Mean delay across elevated periods was 1.24 min.
 
 ### 4.3 Ablations and confounds
 
-Full multimodality outperformed thermal+gas, physio-only, and IMU-only ablations on AUROC and F1 (Figure 2-3). High ambient noise / radio chatter alone did not produce proposed alerts (noise-confound FAR = 0.000) because env_noise is excluded from fusion. Figure 4 summarizes modality coverage under missingness.
+Full multimodality outperformed thermal+gas, physio-only, and IMU-only ablations on AUROC and F1 (Figures 2-3). High ambient noise / radio chatter alone did not produce proposed alerts (noise-confound FAR = 0.000) because env_noise is excluded from fusion. Figure 4 summarizes modality coverage under missingness.
 
 ---
 
@@ -95,13 +105,25 @@ Full multimodality outperformed thermal+gas, physio-only, and IMU-only ablations
 
 These synthetic results support keeping multimodal fusion at the edge: ranking quality and false-alert control improve when thermal, gas, physiological, and inertial cues share a latent risk state, consistent with prior firefighter multi-sensor systems (Pham et al., 2019; Chai et al., 2021). Separating offline safety-critical inference from optional FirstNet/5G mission control matches operational reality where connectivity fails under smoke and remote terrain (First Responder Network Authority, 2024).
 
-**Honest limits.** (1) Synthetic dynamics only. (2) Approximate Kalman inference, not full hierarchical MCMC. (3) Oracle latent labels unavailable in the field. (4) Single seed, modest N. (5) No human-in-the-loop voice-alert usability study. (6) No NFPA/OSHA certification evaluation. Until analog and field trials exist, this manuscript should be read as methods + simulation, not an operational clearance study.
+The F1 gap versus EWMA should be read as an **operating-point choice**, not a failure of the latent score. AUROC favors the proposed tracker; a lower probability threshold would raise recall (and likely FAR) toward EWMA-like behavior. Fireground voice interfaces motivate starting from the high-precision end of that curve and then validating alert burden with users.
+
+### 5.1 Limitations (explicit)
+
+1. **Synthetic-only evidence.** Dynamics, loadings, and event schedules were authored. Absolute sensitivity/specificity on real firegrounds remain unknown.
+2. **Approximate inference.** Kalman + empirical Bayes is not full hierarchical MCMC; calibration under misspecification is untested.
+3. **Oracle labels.** Field "elevated risk" has no latent ground truth; flight/analog labels would need adjudicated endpoints.
+4. **Small N, single seed.** Results are illustrative, not a Monte Carlo robustness study.
+5. **Voice / LLM layer untested.** Hands-free audio is central to the product concept but outside this simulation.
+6. **Hardware and standards.** Heat soak, SCBA/PPE integration, battery, RF, and NFPA/OSHA certification pathways are not measured here.
+7. **Mission-control / 5G path.** Coordination benefits are architectural; bandwidth/latency multi-unit trials were not run.
+
+Until analog drills and field evaluations exist, this manuscript should be read as **methods + simulation**, not an operational clearance or product-readiness study.
 
 ---
 
 ## 6. Conclusion
 
-We presented a multimodal edge-AI architecture for firefighter helmet sensing and evaluated a shared-latent Kalman risk tracker in a controlled synthetic mission. Relative to channel-wise rules, the tracker improved AUROC and eliminated false alerts at a conservative operating point, while modality ablations confirmed the value of fusion. Field validation remains the required next step.
+We presented a multimodal edge-AI architecture for firefighter helmet sensing and evaluated a shared-latent Kalman risk tracker in a controlled synthetic mission. Relative to channel-wise rules, the tracker improved AUROC and achieved zero false alerts at a conservative operating point, while modality ablations confirmed the value of fusion. The remaining F1 gap versus EWMA is explained by that precision-first threshold. Analog and field validation remain the required next steps before any deployment claim.
 
 ---
 
@@ -109,19 +131,22 @@ We presented a multimodal edge-AI architecture for firefighter helmet sensing an
 
 Simulation code, metrics, and figures are publicly available at:
 
-**https://github.com/applycoding/firefighter-multimodal-edge-ai-sim** Re-run with seed 42. No real fireground data were used.
+**https://github.com/applycoding/firefighter-multimodal-edge-ai-sim**
+
+Re-run with seed 42. No real fireground data were used.
 
 ## Author Contributions
 
-Arpan Bom and Sushanta Khadka contributed to conceptualization, methodology, simulation study design, manuscript drafting, and revision.
+Arpan Bom: conceptualization, methodology, simulation study, writing - original draft, writing - review and editing.  
+Sushanta Khadka: conceptualization, methodology, validation, writing - review and editing.
 
 ## Funding
 
-[To be completed.]
+No external funding was received for this study (update if applicable).
 
 ## Acknowledgments
 
-[To be completed.]
+The authors thank collaborators who provided informal feedback on manuscript clarity. No fire department operational data were accessed.
 
 ## Conflicts of Interest
 
@@ -130,6 +155,7 @@ The authors declare no competing interests.
 ---
 
 ## References
+
 
 Bhattarai, M., Jensen-Curtis, A. R., & Martinez-Ramon, M. (2020). An embedded deep learning system for augmented reality in firefighting applications. In *Proceedings of the 19th IEEE International Conference on Machine Learning and Applications (ICMLA)* (pp. 1224-1230). IEEE. https://doi.org/10.1109/ICMLA51294.2020.00193
 
